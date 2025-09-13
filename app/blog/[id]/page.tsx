@@ -1,57 +1,59 @@
-import { notFound } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react"
-import { allBlogPosts } from "@/components/blog-list"
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react";
+import { allBlogPosts } from "@/components/blog-list";
 
 interface BlogDetailPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps) {
-  const post = allBlogPosts.find((p) => p.id === Number.parseInt(params.id))
+  const post = allBlogPosts.find((p) => p.id === Number.parseInt(params.id));
 
   if (!post) {
     return {
-      title: "Blog Yazısı Bulunamadı - Tanju",
-    }
+      title: "Post Not Found",
+    };
   }
 
   return {
-    title: `${post.title} - Tanju`,
+    title: `${post.title}`,
     description: post.excerpt,
-  }
+  };
 }
 
 export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const post = allBlogPosts.find((p) => p.id === Number.parseInt(params.id))
+  const post = allBlogPosts.find((p) => p.id === Number.parseInt(params.id));
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   // Get related posts (same category, excluding current post)
-  const relatedPosts = allBlogPosts.filter((p) => p.category === post.category && p.id !== post.id).slice(0, 3)
+  const relatedPosts = allBlogPosts
+    .filter((p) => p.category === post.category && p.id !== post.id)
+    .slice(0, 3);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
       <main className="flex-1">
         <article className="py-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             {/* Back Button */}
             <div className="mb-8">
               <Button variant="ghost" asChild>
                 <Link href="/blog">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Blog'a Dön
+                  Return to Blog
                 </Link>
               </Button>
             </div>
@@ -62,7 +64,9 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                 <Badge variant="secondary" className="mb-4">
                   {post.category}
                 </Badge>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{post.title}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
+                  {post.title}
+                </h1>
 
                 <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground mb-8">
                   <div className="flex items-center gap-2">
@@ -72,7 +76,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
                     <time dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString("tr-TR", {
+                      {new Date(post.publishedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -113,16 +117,16 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                       <h2 key={index} className="text-2xl font-bold mt-8 mb-4">
                         {paragraph.replace("## ", "")}
                       </h2>
-                    )
+                    );
                   }
                   if (paragraph.trim() === "") {
-                    return <br key={index} />
+                    return <br key={index} />;
                   }
                   return (
                     <p key={index} className="mb-4 text-pretty leading-relaxed">
                       {paragraph}
                     </p>
-                  )
+                  );
                 })}
               </div>
 
@@ -130,7 +134,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
               <div className="flex justify-center mb-12">
                 <Button variant="outline" size="lg">
                   <Share2 className="mr-2 h-4 w-4" />
-                  Paylaş
+                  Share
                 </Button>
               </div>
             </div>
@@ -142,10 +146,15 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
           <section className="py-16 bg-muted/50">
             <div className="container">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-2xl font-bold mb-8 text-center">Benzer Yazılar</h2>
+                <h2 className="text-2xl font-bold mb-8 text-center">
+                  Related Posts
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {relatedPosts.map((relatedPost) => (
-                    <Card key={relatedPost.id} className="group hover:shadow-lg transition-shadow">
+                    <Card
+                      key={relatedPost.id}
+                      className="group hover:shadow-lg transition-shadow"
+                    >
                       <CardHeader className="p-0">
                         <div className="relative overflow-hidden rounded-t-lg">
                           <Image
@@ -162,12 +171,16 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                           {relatedPost.category}
                         </Badge>
                         <CardTitle className="text-lg mb-2 group-hover:text-primary transition-colors">
-                          <Link href={`/blog/${relatedPost.id}`}>{relatedPost.title}</Link>
+                          <Link href={`/blog/${relatedPost.id}`}>
+                            {relatedPost.title}
+                          </Link>
                         </CardTitle>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="h-3 w-3" />
                           <time dateTime={relatedPost.publishedAt}>
-                            {new Date(relatedPost.publishedAt).toLocaleDateString("tr-TR", {
+                            {new Date(
+                              relatedPost.publishedAt
+                            ).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
@@ -187,5 +200,5 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
