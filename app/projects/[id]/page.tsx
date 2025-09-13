@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, ExternalLink, Github, Calendar, User } from "lucide-react"
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowLeft, ExternalLink, Github, Calendar, User } from "lucide-react";
 
 // Mock project data - in a real app, this would come from a database
 const projects = [
@@ -15,8 +15,8 @@ const projects = [
     title: "E-Ticaret Platformu",
     description:
       "Laravel ve Vue.js ile geliştirilmiş modern e-ticaret çözümü. Bu proje, küçük ve orta ölçekli işletmelerin online satış yapabilmesi için geliştirilmiş kapsamlı bir platformdur.",
-    longDescription: `Bu e-ticaret platformu, modern web teknolojileri kullanılarak geliştirilmiş kapsamlı bir çözümdür. 
-    
+    longDescription: `Bu e-ticaret platformu, modern web teknolojileri kullanılarak geliştirilmiş kapsamlı bir çözümdür.
+
     Proje kapsamında şu özellikler geliştirilmiştir:
     • Kullanıcı kayıt ve giriş sistemi
     • Ürün katalog yönetimi
@@ -25,10 +25,14 @@ const projects = [
     • Sipariş yönetimi
     • Admin paneli
     • Raporlama modülü
-    
+
     Backend tarafında Laravel framework'ü kullanılarak RESTful API geliştirilmiş, frontend tarafında ise Vue.js ile modern ve responsive bir kullanıcı arayüzü oluşturulmuştur.`,
     image: "/ecommerce-dashboard.png",
-    screenshots: ["/ecommerce-dashboard.png", "/ecommerce-product-page.png", "/ecommerce-checkout.png"],
+    screenshots: [
+      "/ecommerce-dashboard.png",
+      "/ecommerce-product-page.png",
+      "/ecommerce-checkout.png",
+    ],
     technologies: ["Laravel", "Vue.js", "MySQL", "Stripe", "Redis", "Docker"],
     demoUrl: "https://demo-ecommerce.example.com",
     githubUrl: "https://github.com/tanju/ecommerce-platform",
@@ -52,7 +56,7 @@ const projects = [
     description:
       "Next.js ve Supabase kullanılarak geliştirilen takım çalışması için proje yönetim uygulaması. Gerçek zamanlı güncellemeler ve işbirliği özellikleri içerir.",
     longDescription: `Modern takımların ihtiyaçlarını karşılamak için geliştirilmiş kapsamlı proje yönetim sistemi.
-    
+
     Sistem özellikleri:
     • Proje oluşturma ve yönetimi
     • Görev atama ve takibi
@@ -61,11 +65,21 @@ const projects = [
     • Dosya paylaşımı
     • Zaman takibi
     • Raporlama ve analitik
-    
+
     Next.js 13'ün App Router özelliği kullanılarak geliştirilmiş, Supabase ile gerçek zamanlı veritabanı işlemleri sağlanmıştır.`,
     image: "/project-management-dashboard.png",
-    screenshots: ["/project-management-dashboard.png", "/project-management-tasks.png", "/project-management-team.png"],
-    technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    screenshots: [
+      "/project-management-dashboard.png",
+      "/project-management-tasks.png",
+      "/project-management-team.png",
+    ],
+    technologies: [
+      "Next.js",
+      "Supabase",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+    ],
     demoUrl: "https://demo-pm.example.com",
     githubUrl: "https://github.com/tanju/project-management",
     startDate: "2023-10-01",
@@ -88,7 +102,7 @@ const projects = [
     description:
       "PHP ve MySQL ile geliştirilmiş içerik yönetim sistemi. SEO optimizasyonu, çoklu dil desteği ve medya yönetimi özellikleri içerir.",
     longDescription: `Bloggerlar ve içerik üreticileri için geliştirilmiş kullanıcı dostu içerik yönetim sistemi.
-    
+
     CMS özellikleri:
     • Makale yazma ve düzenleme
     • Kategori ve etiket yönetimi
@@ -98,10 +112,14 @@ const projects = [
     • Yorum sistemi
     • Kullanıcı rolleri
     • Tema yönetimi
-    
+
     Vanilla PHP kullanılarak geliştirilmiş, modern PHP standartlarına uygun olarak kodlanmıştır.`,
     image: "/blog-cms-interface.jpg",
-    screenshots: ["/blog-cms-interface.jpg", "/blog-cms-editor.png", "/blog-cms-media.png"],
+    screenshots: [
+      "/blog-cms-interface.jpg",
+      "/blog-cms-editor.png",
+      "/blog-cms-media.png",
+    ],
     technologies: ["PHP", "MySQL", "Bootstrap", "jQuery", "TinyMCE"],
     demoUrl: "https://demo-cms.example.com",
     githubUrl: "https://github.com/tanju/blog-cms",
@@ -119,34 +137,34 @@ const projects = [
       "Tema yönetimi",
     ],
   },
-]
+];
 
 interface ProjectDetailPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 export async function generateMetadata({ params }: ProjectDetailPageProps) {
-  const project = projects.find((p) => p.id === Number.parseInt(params.id))
+  const project = projects.find((p) => p.id === Number.parseInt(params.id));
 
   if (!project) {
     return {
       title: "Proje Bulunamadı - Tanju",
-    }
+    };
   }
 
   return {
     title: `${project.title} - Tanju`,
     description: project.description,
-  }
+  };
 }
 
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
-  const project = projects.find((p) => p.id === Number.parseInt(params.id))
+  const project = projects.find((p) => p.id === Number.parseInt(params.id));
 
   if (!project) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -154,13 +172,13 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
       <Navigation />
       <main className="flex-1">
         <div className="py-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             {/* Back Button */}
             <div className="mb-8">
               <Button variant="ghost" asChild>
                 <Link href="/projects">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Projelere Dön
+                  Back to Projects
                 </Link>
               </Button>
             </div>
@@ -168,8 +186,12 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
             {/* Project Header */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{project.title}</h1>
-                <p className="text-lg text-muted-foreground mb-8 text-pretty">{project.description}</p>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
+                  {project.title}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-8 text-pretty">
+                  {project.description}
+                </p>
 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {project.technologies.map((tech) => (
@@ -181,15 +203,23 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
                 <div className="flex gap-4">
                   <Button asChild>
-                    <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <ExternalLink className="mr-2 h-4 w-4" />
-                      Canlı Demo
+                      Live Demo
                     </a>
                   </Button>
                   <Button variant="outline" asChild>
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Github className="mr-2 h-4 w-4" />
-                      Kaynak Kod
+                      Source Code
                     </a>
                   </Button>
                 </div>
@@ -212,13 +242,17 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 {/* Description */}
                 <Card>
                   <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold mb-4">Proje Hakkında</h2>
+                    <h2 className="text-2xl font-bold mb-4">
+                      About the Project
+                    </h2>
                     <div className="prose prose-gray dark:prose-invert max-w-none">
-                      {project.longDescription.split("\n").map((paragraph, index) => (
-                        <p key={index} className="mb-4 text-pretty">
-                          {paragraph}
-                        </p>
-                      ))}
+                      {project.longDescription
+                        .split("\n")
+                        .map((paragraph, index) => (
+                          <p key={index} className="mb-4 text-pretty">
+                            {paragraph}
+                          </p>
+                        ))}
                     </div>
                   </CardContent>
                 </Card>
@@ -226,7 +260,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 {/* Features */}
                 <Card>
                   <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold mb-4">Özellikler</h2>
+                    <h2 className="text-2xl font-bold mb-4">Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {project.features.map((feature, index) => (
                         <div key={index} className="flex items-start gap-3">
@@ -241,7 +275,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 {/* Screenshots */}
                 <Card>
                   <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold mb-4">Ekran Görüntüleri</h2>
+                    <h2 className="text-2xl font-bold mb-4">Screenshots</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {project.screenshots.map((screenshot, index) => (
                         <Image
@@ -262,37 +296,45 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
               <div className="space-y-6">
                 <Card>
                   <CardContent className="p-6">
-                    <h3 className="font-semibold mb-4">Proje Bilgileri</h3>
+                    <h3 className="font-semibold mb-4">Project Information</h3>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <div className="text-sm font-medium">Başlangıç</div>
+                          <div className="text-sm font-medium">Start</div>
                           <div className="text-sm text-muted-foreground">
-                            {new Date(project.startDate).toLocaleDateString("tr-TR", {
-                              year: "numeric",
-                              month: "long",
-                            })}
+                            {new Date(project.startDate).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                              }
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <div className="text-sm font-medium">Bitiş</div>
+                          <div className="text-sm font-medium">Finish</div>
                           <div className="text-sm text-muted-foreground">
-                            {new Date(project.endDate).toLocaleDateString("tr-TR", {
-                              year: "numeric",
-                              month: "long",
-                            })}
+                            {new Date(project.endDate).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                              }
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <User className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <div className="text-sm font-medium">Müşteri</div>
-                          <div className="text-sm text-muted-foreground">{project.client}</div>
+                          <div className="text-sm font-medium">Customer</div>
+                          <div className="text-sm text-muted-foreground">
+                            {project.client}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -301,7 +343,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
                 <Card>
                   <CardContent className="p-6">
-                    <h3 className="font-semibold mb-4">Teknolojiler</h3>
+                    <h3 className="font-semibold mb-4">Technologies</h3>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech) => (
                         <Badge key={tech} variant="outline">
@@ -314,18 +356,30 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
                 <Card>
                   <CardContent className="p-6">
-                    <h3 className="font-semibold mb-4">Proje Linkleri</h3>
+                    <h3 className="font-semibold mb-4">Project Links</h3>
                     <div className="space-y-3">
                       <Button className="w-full" asChild>
-                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <ExternalLink className="mr-2 h-4 w-4" />
-                          Canlı Demo
+                          Live Demo
                         </a>
                       </Button>
-                      <Button variant="outline" className="w-full bg-transparent" asChild>
-                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <Button
+                        variant="outline"
+                        className="w-full bg-transparent"
+                        asChild
+                      >
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <Github className="mr-2 h-4 w-4" />
-                          Kaynak Kod
+                          Source Code
                         </a>
                       </Button>
                     </div>
@@ -338,5 +392,5 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
