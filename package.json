@@ -52,6 +52,7 @@
     "lucide-react": "^0.454.0",
     "next": "14.2.16",
     "next-themes": "latest",
+    "nodemailer": "^7.0.6",
     "react": "^18",
     "react-day-picker": "9.8.0",
     "react-dom": "^18",
@@ -67,6 +68,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.9",
     "@types/node": "^22",
+    "@types/nodemailer": "^7.0.1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8.5",

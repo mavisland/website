@@ -26,27 +26,67 @@ import { useToast } from "@/hooks/use-toast";
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      // Collect form data
+      const formData = new FormData(e.currentTarget);
+      const formValues = Object.fromEntries(formData.entries());
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+      // Display form data (for debugging)
+      console.log("Sending form data:", formValues);
 
-    toast({
-      title: "Message sent!",
-      description: "I will get back to you as soon as possible.",
-    });
+      // Send to API endpoint
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      });
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 3000);
+      const responseData = await response.json();
+      console.log("Response:", responseData);
+
+      if (!response.ok) {
+        throw new Error(responseData.error || "Form submission failed");
+      }
+
+      setIsSubmitted(true);
+      toast({
+        title: "Message sent!",
+        description: "I will get back to you as soon as possible.",
+      });
+
+      // Clear form fields
+      e.currentTarget.reset();
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      const errorMsg =
+        error instanceof Error
+          ? error.message
+          : "Message could not be sent. Please try again later.";
+
+      setErrorMessage(errorMsg);
+
+      toast({
+        title: "Error",
+        description: errorMsg,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -138,12 +178,12 @@ export function ContactForm() {
                   <SelectValue placeholder="Select your budget range (optional)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="under-5k">5.000 TL altı</SelectItem>
-                  <SelectItem value="5k-15k">5.000 - 15.000 TL</SelectItem>
-                  <SelectItem value="15k-30k">15.000 - 30.000 TL</SelectItem>
-                  <SelectItem value="30k-50k">30.000 - 50.000 TL</SelectItem>
-                  <SelectItem value="over-50k">50.000 TL üzeri</SelectItem>
-                  <SelectItem value="discuss">Görüşelim</SelectItem>
+                  <SelectItem value="under-5k">Under $5,000</SelectItem>
+                  <SelectItem value="5k-15k">$5,000 - $15,000</SelectItem>
+                  <SelectItem value="15k-30k">$15,000 - $30,000</SelectItem>
+                  <SelectItem value="30k-50k">$30,000 - $50,000</SelectItem>
+                  <SelectItem value="over-50k">Over $50,000</SelectItem>
+                  <SelectItem value="discuss">Let's discuss</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -180,6 +220,13 @@ export function ContactForm() {
             By sending a message, you agree to the processing of your personal
             data.
           </p>
+
+          {errorMessage && (
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
+              <p className="font-medium mb-1">An error occurred:</p>
+              <p>{errorMessage}</p>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>

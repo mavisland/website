@@ -23,7 +23,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **About**: Developer background and personal information
 - **Projects**: Portfolio of development projects with detailed case studies
 - **Blog**: Articles and technical content
-- **Contact**: Contact form and contact information
+- **Contact**: Functional contact form with email notification and contact information
 - **Uses**: Information about tools and technologies used
 
 ## Tech Stack
@@ -42,6 +42,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 ### Form Handling
 - **React Hook Form**: Form state management and validation
 - **Zod**: TypeScript-first schema validation
+- **Nodemailer**: Email functionality for contact form
 
 ### Additional Libraries
 - **date-fns**: Date utility library
@@ -70,7 +71,7 @@ pnpm install
 
 # Set up environment variables
 cp .env.example .env.local
-# Edit .env.local with your Supabase credentials
+# Edit .env.local with your Supabase and email credentials
 
 # Start the development server
 pnpm dev
@@ -81,6 +82,28 @@ The application will be available at http://localhost:3000
 ### Database Setup
 
 For database setup and sample data, follow the instructions in the [Supabase setup documentation](./docs/supabase-setup.md).
+
+### Email Setup for Contact Form
+
+The contact form requires email configuration to work properly:
+
+1. Edit your `.env.local` file to include email settings:
+   ```
+   EMAIL_HOST=your-smtp-server
+   EMAIL_PORT=587
+   EMAIL_SECURE=false
+   EMAIL_USER=your-email@example.com
+   EMAIL_PASSWORD=your-email-password
+   EMAIL_FROM=your-email@example.com
+   EMAIL_TO=recipient-email@example.com
+   ```
+
+2. Gmail users need to:
+   - Use `smtp.gmail.com` as EMAIL_HOST
+   - Create an app password at https://myaccount.google.com/apppasswords
+   - Use that app password instead of your Gmail password
+
+The contact form sends the submitted information to the specified email address.
 
 ### Build
 
