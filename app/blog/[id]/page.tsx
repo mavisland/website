@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react";
-import { allBlogPosts } from "@/components/blog-list";
+import { getBlogPosts, type Post } from "@/lib/supabase-service";
 
 interface BlogDetailPageProps {
   params: {
@@ -16,7 +16,8 @@ interface BlogDetailPageProps {
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps) {
-  const post = allBlogPosts.find((p) => p.id === Number.parseInt(params.id));
+  const posts = await getBlogPosts();
+  const post = posts.find((p) => p.id === Number.parseInt(params.id));
 
   if (!post) {
     return {
@@ -30,15 +31,16 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
   };
 }
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const post = allBlogPosts.find((p) => p.id === Number.parseInt(params.id));
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const posts = await getBlogPosts();
+  const post = posts.find((p) => p.id === Number.parseInt(params.id));
 
   if (!post) {
     notFound();
   }
 
   // Get related posts (same category, excluding current post)
-  const relatedPosts = allBlogPosts
+  const relatedPosts = posts
     .filter((p) => p.category === post.category && p.id !== post.id)
     .slice(0, 3);
 
@@ -71,12 +73,13 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                 <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground mb-8">
                   <div className="flex items-center gap-2">
                     <User className="h-4 w-4" />
-                    <span>{post.author}</span>
+                    <span>Tanju Yıldız</span>{" "}
+                    {/* We'll update this once we have author information */}
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
-                    <time dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                    <time dateTime={post.created_at}>
+                      {new Date(post.created_at).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -85,23 +88,24 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4" />
-                    <span>{post.readTime}</span>
+                    <span>{post.read_time || "5 min read"}</span>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-2 mb-8">
-                  {post.tags.map((tag) => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
+                  {post.tags &&
+                    post.tags.map((tag) => (
+                      <Badge key={tag} variant="outline">
+                        {tag}
+                      </Badge>
+                    ))}
                 </div>
               </div>
 
               {/* Featured Image */}
               <div className="relative mb-12">
                 <Image
-                  src={post.image || "/placeholder.svg"}
+                  src={post.cover_image || "/placeholder.svg"}
                   alt={post.title}
                   width={800}
                   height={400}
@@ -158,7 +162,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                       <CardHeader className="p-0">
                         <div className="relative overflow-hidden rounded-t-lg">
                           <Image
-                            src={relatedPost.image || "/placeholder.svg"}
+                            src={relatedPost.cover_image || "/placeholder.svg"}
                             alt={relatedPost.title}
                             width={300}
                             height={200}
@@ -168,7 +172,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                       </CardHeader>
                       <CardContent className="p-4">
                         <Badge variant="secondary" className="mb-2 text-xs">
-                          {relatedPost.category}
+                          {relatedPost.category || "General"}
                         </Badge>
                         <CardTitle className="text-lg mb-2 group-hover:text-primary transition-colors">
                           <Link href={`/blog/${relatedPost.id}`}>
@@ -177,9 +181,9 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                         </CardTitle>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="h-3 w-3" />
-                          <time dateTime={relatedPost.publishedAt}>
+                          <time dateTime={relatedPost.created_at}>
                             {new Date(
-                              relatedPost.publishedAt
+                              relatedPost.created_at
                             ).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "short",
@@ -187,7 +191,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                             })}
                           </time>
                           <span>•</span>
-                          <span>{relatedPost.readTime}</span>
+                          <span>{relatedPost.read_time || "5 min read"}</span>
                         </div>
                       </CardContent>
                     </Card>

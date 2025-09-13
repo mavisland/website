@@ -10,79 +10,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github } from "lucide-react";
+import { getProjects, type Project } from "@/lib/supabase-service";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
-const allProjects = [
-  {
-    id: 1,
-    title: "E-Ticaret Platformu",
-    description:
-      "Laravel ve Vue.js ile geliştirilmiş modern e-ticaret çözümü. Ödeme entegrasyonları, stok yönetimi ve admin paneli dahil.",
-    image: "/ecommerce-dashboard.png",
-    technologies: ["Laravel", "Vue.js", "MySQL", "Stripe", "Redis"],
-    demoUrl: "https://demo-ecommerce.example.com",
-    githubUrl: "https://github.com/tanju/ecommerce-platform",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Proje Yönetim Sistemi",
-    description:
-      "Next.js ve Supabase kullanılarak geliştirilen takım çalışması için proje yönetim uygulaması. Gerçek zamanlı güncellemeler ve işbirliği özellikleri.",
-    image: "/project-management-dashboard.png",
-    technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS"],
-    demoUrl: "https://demo-pm.example.com",
-    githubUrl: "https://github.com/tanju/project-management",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Blog CMS",
-    description:
-      "PHP ve MySQL ile geliştirilmiş içerik yönetim sistemi. SEO optimizasyonu, çoklu dil desteği ve medya yönetimi.",
-    image: "/blog-cms-interface.jpg",
-    technologies: ["PHP", "MySQL", "Bootstrap", "jQuery"],
-    demoUrl: "https://demo-cms.example.com",
-    githubUrl: "https://github.com/tanju/blog-cms",
-    featured: true,
-  },
-  {
-    id: 4,
-    title: "Muhasebe Uygulaması",
-    description:
-      "Küçük işletmeler için geliştirilmiş web tabanlı muhasebe ve fatura yönetim sistemi.",
-    image: "/accounting-app-dashboard.png",
-    technologies: ["Laravel", "MySQL", "Chart.js", "mPDF"],
-    demoUrl: "https://demo-accounting.example.com",
-    githubUrl: "https://github.com/tanju/accounting-app",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Restoran Menü Sistemi",
-    description:
-      "QR kod ile erişilebilen dijital menü sistemi. Restoran sahipleri için admin paneli dahil.",
-    image: "/restaurant-menu-system.png",
-    technologies: ["Next.js", "MongoDB", "Tailwind CSS", "QR Code"],
-    demoUrl: "https://demo-menu.example.com",
-    githubUrl: "https://github.com/tanju/restaurant-menu",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Hava Durumu Uygulaması",
-    description:
-      "React ile geliştirilmiş hava durumu uygulaması. Konum tabanlı tahminler ve 7 günlük öngörü.",
-    image: "/weather-app-interface.png",
-    technologies: ["React", "OpenWeather API", "CSS3", "Geolocation"],
-    demoUrl: "https://demo-weather.example.com",
-    githubUrl: "https://github.com/tanju/weather-app",
-    featured: false,
-  },
-];
+export async function ProjectsGrid() {
+  const projects = await getProjects();
 
-export function ProjectsGrid() {
-  const featuredProjects = allProjects.filter((project) => project.featured);
-  const otherProjects = allProjects.filter((project) => !project.featured);
+  if (!projects || projects.length === 0) {
+    return <LoadingSpinner />;
+  }
+
+  const featuredProjects = projects.filter((project) => project.featured);
+  const otherProjects = projects.filter((project) => !project.featured);
 
   return (
     <div className="space-y-16">
@@ -109,13 +48,13 @@ export function ProjectsGrid() {
   );
 }
 
-function ProjectCard({ project }: { project: (typeof allProjects)[0] }) {
+function ProjectCard({ project }: { project: Project }) {
   return (
     <Card className="group hover:shadow-lg transition-shadow">
       <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <Image
-            src={project.image || "/placeholder.svg"}
+            src={project.cover_image || "/placeholder.svg"}
             alt={project.title}
             width={400}
             height={300}
@@ -135,33 +74,42 @@ function ProjectCard({ project }: { project: (typeof allProjects)[0] }) {
         </CardDescription>
 
         <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.map((tech) => (
-            <Badge key={tech} variant="secondary">
-              {tech}
-            </Badge>
-          ))}
+          {project.technologies &&
+            project.technologies.map((tech: string) => (
+              <Badge key={tech} variant="secondary">
+                {tech}
+              </Badge>
+            ))}
         </div>
 
         <div className="flex gap-2">
           <Button size="sm" asChild>
             <Link href={`/projects/${project.id}`}>Detaylar</Link>
           </Button>
-          <Button size="sm" variant="outline" asChild>
-            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4 mr-1" />
-              Demo
-            </a>
-          </Button>
-          <Button size="sm" variant="outline" asChild>
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="h-4 w-4 mr-1" />
-              Kod
-            </a>
-          </Button>
+          {project.demo_url && (
+            <Button size="sm" variant="outline" asChild>
+              <a
+                href={project.demo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink className="h-4 w-4 mr-1" />
+                Demo
+              </a>
+            </Button>
+          )}
+          {project.github_url && (
+            <Button size="sm" variant="outline" asChild>
+              <a
+                href={project.github_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="h-4 w-4 mr-1" />
+                Kod
+              </a>
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

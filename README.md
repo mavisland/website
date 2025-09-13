@@ -32,6 +32,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **Next.js**: React framework for production
 - **TypeScript**: Type safety and better developer experience
 - **Tailwind CSS**: Utility-first CSS framework
+- **Supabase**: Database, authentication, and storage
 
 ### UI Components
 - **shadcn/ui**: Beautifully designed components built with Radix UI and Tailwind CSS
@@ -67,11 +68,19 @@ cd website
 # Install dependencies
 pnpm install
 
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your Supabase credentials
+
 # Start the development server
 pnpm dev
 ```
 
 The application will be available at http://localhost:3000
+
+### Database Setup
+
+For database setup and sample data, follow the instructions in the [Supabase setup documentation](./docs/supabase-setup.md).
 
 ### Build
 
@@ -89,10 +98,12 @@ pnpm start
 ├── app/                  # Next.js app directory (pages and routes)
 ├── components/           # Reusable UI components
 │   ├── ui/               # shadcn/ui components
+├── docs/                 # Documentation and setup guides
 ├── hooks/                # Custom React hooks
 ├── lib/                  # Utility functions and shared code
 ├── public/               # Static assets
-└── styles/               # Global styles
+├── styles/               # Global styles
+└── types/                # TypeScript type definitions
 ```
 
 ## Customization
