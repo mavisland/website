@@ -1,11 +1,12 @@
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { ProjectsGrid } from "@/components/projects-grid"
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { ProjectsGrid } from "@/components/projects-grid";
 
 export const metadata = {
-  title: "Projeler - Tanju",
-  description: "Geliştirdiğim projeler ve kullandığım teknolojiler",
-}
+  title: "Projects",
+  description:
+    "Web applications and projects I developed using different technologies",
+};
 
 export default function ProjectsPage() {
   return (
@@ -13,11 +14,14 @@ export default function ProjectsPage() {
       <Navigation />
       <main className="flex-1">
         <div className="py-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             <div className="text-center space-y-4 mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-balance">Projelerim</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-balance">
+                Projects
+              </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Farklı teknolojiler kullanarak geliştirdiğim web uygulamaları ve projeler
+                Web applications and projects I developed using different
+                technologies
               </p>
             </div>
             <ProjectsGrid />
@@ -26,5 +30,5 @@ export default function ProjectsPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

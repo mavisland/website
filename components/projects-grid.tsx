@@ -1,9 +1,15 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Github } from "lucide-react"
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, Github } from "lucide-react";
 
 const allProjects = [
   {
@@ -42,7 +48,8 @@ const allProjects = [
   {
     id: 4,
     title: "Muhasebe Uygulaması",
-    description: "Küçük işletmeler için geliştirilmiş web tabanlı muhasebe ve fatura yönetim sistemi.",
+    description:
+      "Küçük işletmeler için geliştirilmiş web tabanlı muhasebe ve fatura yönetim sistemi.",
     image: "/accounting-app-dashboard.png",
     technologies: ["Laravel", "MySQL", "Chart.js", "mPDF"],
     demoUrl: "https://demo-accounting.example.com",
@@ -52,7 +59,8 @@ const allProjects = [
   {
     id: 5,
     title: "Restoran Menü Sistemi",
-    description: "QR kod ile erişilebilen dijital menü sistemi. Restoran sahipleri için admin paneli dahil.",
+    description:
+      "QR kod ile erişilebilen dijital menü sistemi. Restoran sahipleri için admin paneli dahil.",
     image: "/restaurant-menu-system.png",
     technologies: ["Next.js", "MongoDB", "Tailwind CSS", "QR Code"],
     demoUrl: "https://demo-menu.example.com",
@@ -62,24 +70,25 @@ const allProjects = [
   {
     id: 6,
     title: "Hava Durumu Uygulaması",
-    description: "React ile geliştirilmiş hava durumu uygulaması. Konum tabanlı tahminler ve 7 günlük öngörü.",
+    description:
+      "React ile geliştirilmiş hava durumu uygulaması. Konum tabanlı tahminler ve 7 günlük öngörü.",
     image: "/weather-app-interface.png",
     technologies: ["React", "OpenWeather API", "CSS3", "Geolocation"],
     demoUrl: "https://demo-weather.example.com",
     githubUrl: "https://github.com/tanju/weather-app",
     featured: false,
   },
-]
+];
 
 export function ProjectsGrid() {
-  const featuredProjects = allProjects.filter((project) => project.featured)
-  const otherProjects = allProjects.filter((project) => !project.featured)
+  const featuredProjects = allProjects.filter((project) => project.featured);
+  const otherProjects = allProjects.filter((project) => !project.featured);
 
   return (
     <div className="space-y-16">
       {/* Featured Projects */}
       <div>
-        <h2 className="text-2xl font-bold mb-8">Öne Çıkan Projeler</h2>
+        <h2 className="text-2xl font-bold mb-8">Featured Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
@@ -89,7 +98,7 @@ export function ProjectsGrid() {
 
       {/* Other Projects */}
       <div>
-        <h2 className="text-2xl font-bold mb-8">Diğer Projeler</h2>
+        <h2 className="text-2xl font-bold mb-8">Other Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {otherProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
@@ -97,7 +106,7 @@ export function ProjectsGrid() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function ProjectCard({ project }: { project: (typeof allProjects)[0] }) {
@@ -113,13 +122,17 @@ function ProjectCard({ project }: { project: (typeof allProjects)[0] }) {
             className="w-full h-48 object-cover transition-transform group-hover:scale-105"
           />
           {project.featured && (
-            <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">Öne Çıkan</Badge>
+            <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
+              Featured
+            </Badge>
           )}
         </div>
       </CardHeader>
       <CardContent className="p-6">
         <CardTitle className="mb-2">{project.title}</CardTitle>
-        <CardDescription className="mb-4 text-pretty">{project.description}</CardDescription>
+        <CardDescription className="mb-4 text-pretty">
+          {project.description}
+        </CardDescription>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {project.technologies.map((tech) => (
@@ -140,7 +153,11 @@ function ProjectCard({ project }: { project: (typeof allProjects)[0] }) {
             </a>
           </Button>
           <Button size="sm" variant="outline" asChild>
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Github className="h-4 w-4 mr-1" />
               Kod
             </a>
@@ -148,5 +165,5 @@ function ProjectCard({ project }: { project: (typeof allProjects)[0] }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
