@@ -8,9 +8,9 @@ import { ExternalLink, Github } from "lucide-react"
 const featuredProjects = [
   {
     id: 1,
-    title: "E-Ticaret Platformu",
+    title: "E-Commerce Platform",
     description:
-      "Laravel ve Vue.js ile geliştirilmiş modern e-ticaret çözümü. Ödeme entegrasyonları ve admin paneli dahil.",
+      "Modern e-commerce solution built with Laravel and Vue.js. Includes payment integrations and admin panel.",
     image: "/ecommerce-dashboard.png",
     technologies: ["Laravel", "Vue.js", "MySQL", "Stripe"],
     demoUrl: "#",
@@ -18,8 +18,8 @@ const featuredProjects = [
   },
   {
     id: 2,
-    title: "Proje Yönetim Sistemi",
-    description: "Next.js ve Supabase kullanılarak geliştirilen takım çalışması için proje yönetim uygulaması.",
+    title: "Project Management System",
+    description: "Project management application for teamwork developed using Next.js and Supabase.",
     image: "/project-management-dashboard.png",
     technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS"],
     demoUrl: "#",
@@ -28,7 +28,7 @@ const featuredProjects = [
   {
     id: 3,
     title: "Blog CMS",
-    description: "PHP ve MySQL ile geliştirilmiş içerik yönetim sistemi. SEO optimizasyonu ve çoklu dil desteği.",
+    description: "Content management system developed with PHP and MySQL. SEO optimization and multi-language support.",
     image: "/blog-cms-interface.jpg",
     technologies: ["PHP", "MySQL", "Bootstrap", "jQuery"],
     demoUrl: "#",
@@ -39,11 +39,11 @@ const featuredProjects = [
 export function FeaturedProjects() {
   return (
     <section className="py-20 bg-muted/50">
-      <div className="container">
+      <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-balance">Öne Çıkan Projeler</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-balance">Featured Projects</h2>
           <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-            Geliştirdiğim bazı projeler ve kullandığım teknolojiler
+            Some of the projects I developed and the technologies I used in them.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export function FeaturedProjects() {
 
                 <div className="flex gap-2">
                   <Button size="sm" asChild>
-                    <Link href={`/projects/${project.id}`}>Detaylar</Link>
+                    <Link href={`/projects/${project.id}`}>View</Link>
                   </Button>
                   <Button size="sm" variant="outline" asChild>
                     <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
@@ -86,7 +86,7 @@ export function FeaturedProjects() {
                   <Button size="sm" variant="outline" asChild>
                     <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                       <Github className="h-4 w-4 mr-1" />
-                      Kod
+                      View Source
                     </a>
                   </Button>
                 </div>
@@ -97,7 +97,7 @@ export function FeaturedProjects() {
 
         <div className="text-center mt-12">
           <Button asChild variant="outline" size="lg">
-            <Link href="/projects">Tüm Projeleri Gör</Link>
+            <Link href="/projects">View All Projects</Link>
           </Button>
         </div>
       </div>
