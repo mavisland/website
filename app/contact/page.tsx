@@ -1,14 +1,15 @@
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { ContactForm } from "@/components/contact-form"
-import { ContactInfo } from "@/components/contact-info"
-import { HiringStatus } from "@/components/hiring-status"
-import { FAQ } from "@/components/faq"
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { ContactForm } from "@/components/contact-form";
+import { ContactInfo } from "@/components/contact-info";
+import { HiringStatus } from "@/components/hiring-status";
+import { FAQ } from "@/components/faq";
 
 export const metadata = {
-  title: "İletişim - Tanju",
-  description: "Benimle iletişime geçin. Proje teklifleri ve işbirliği fırsatları için mesaj gönderin.",
-}
+  title: "Contact",
+  description:
+    "Contact me. Send me a message for project proposals and collaboration opportunities.",
+};
 
 export default function ContactPage() {
   return (
@@ -17,11 +18,14 @@ export default function ContactPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             <div className="text-center space-y-4 mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-balance">İletişim</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-balance">
+                Contact
+              </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Projeleriniz hakkında konuşmak, işbirliği yapmak veya sadece merhaba demek için benimle iletişime geçin
+                Contact me to talk about your projects, collaborate or just say
+                hello.
               </p>
             </div>
 
@@ -43,5 +47,5 @@ export default function ContactPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

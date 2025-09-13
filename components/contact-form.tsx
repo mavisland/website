@@ -39,8 +39,8 @@ export function ContactForm() {
     setIsSubmitted(true);
 
     toast({
-      title: "Mesaj gönderildi!",
-      description: "En kısa sürede size geri dönüş yapacağım.",
+      title: "Message sent!",
+      description: "I will get back to you as soon as possible.",
     });
 
     // Reset form after 3 seconds

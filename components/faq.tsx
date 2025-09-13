@@ -1,51 +1,62 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const faqItems = [
   {
-    question: "Hangi tür projeler üzerinde çalışıyorsunuz?",
+    question: "What types of projects do you work on?",
     answer:
-      "Web uygulamaları, e-ticaret siteleri, CMS sistemleri, API geliştirme ve frontend/backend entegrasyonları üzerinde çalışıyorum. Özellikle Laravel, Next.js ve modern JavaScript teknolojileri kullanarak projeler geliştiriyorum.",
+      "I work on web applications, e-commerce sites, CMS systems, API development, and frontend/backend integrations. I develop projects primarily using Laravel, Next.js, and modern JavaScript technologies.",
   },
   {
-    question: "Proje süreçleriniz nasıl işliyor?",
+    question: "How do your project processes work?",
     answer:
-      "İlk olarak projenizin gereksinimlerini detaylı bir şekilde analiz ediyoruz. Ardından teknik çözüm önerisi ve zaman planı hazırlıyorum. Geliştirme sürecinde düzenli güncellemeler paylaşır ve geri bildirimlerinizi alırım. Proje teslim edildikten sonra da destek sağlarım.",
+      "First, we analyze your project's requirements in detail. Then, I develop a technical solution proposal and timeline. I provide regular updates and feedback throughout the development process. I also provide support after the project is delivered.",
   },
   {
-    question: "Uzaktan çalışma yapıyor musunuz?",
+    question: "Do you work remotely?",
     answer:
-      "Evet, tamamen uzaktan çalışıyorum. İstanbul merkezli olmakla birlikte, Türkiye'nin her yerinden ve yurt dışından müşterilerle çalışabiliyorum. Video konferans, Slack ve diğer iletişim araçları ile etkili bir şekilde proje yönetimi yapıyorum.",
+      "Yes, I work entirely remotely. While I'm based in Konya, I can work with clients from all over Türkiye and abroad. I manage projects effectively using video conferencing, Slack, and other communication tools.",
   },
   {
-    question: "Proje fiyatlandırmanız nasıl?",
+    question: "How do you price your projects?",
     answer:
-      "Fiyatlandırma projenin karmaşıklığına, süresine ve gereksinimlerine göre değişiklik gösterir. Sabit fiyat veya saatlik ücret seçenekleri sunuyorum. Detaylı bir görüşme sonrasında size özel bir teklif hazırlayabilirim.",
+      "Pricing varies depending on the complexity, duration, and requirements of the project. I offer flat rates or hourly rates. After a detailed consultation, I can create a personalized quote for you.",
   },
-]
+];
 
 export function FAQ() {
   return (
     <section className="py-20 bg-muted/50">
-      <div className="container">
+      <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-balance">Sıkça Sorulan Sorular</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-balance">
+            Frequently Asked Questions
+          </h2>
           <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-            En çok merak edilen konular hakkında hazırladığım cevaplar
+            Answers I have prepared about the most curious topics
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
           <Card>
             <CardHeader>
-              <CardTitle>SSS</CardTitle>
+              <CardTitle>FAQ</CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className="w-full">
                 {faqItems.map((item, index) => (
                   <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger className="text-left">{item.question}</AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground text-pretty">{item.answer}</AccordionContent>
+                    <AccordionTrigger className="text-left">
+                      {item.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-pretty">
+                      {item.answer}
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -54,5 +65,5 @@ export function FAQ() {
         </div>
       </div>
     </section>
-  )
+  );
 }
