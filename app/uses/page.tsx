@@ -1,94 +1,99 @@
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Monitor, Smartphone, Code, Palette, Cloud, Zap } from "lucide-react"
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Monitor, Smartphone, Code, Palette, Cloud, Zap } from "lucide-react";
 
 export const metadata = {
-  title: "Uses - Tanju",
-  description: "Yazılım geliştirme için kullandığım cihazlar, yazılımlar ve araçlar",
-}
+  title: "Uses",
+  description: "Devices, software and tools I use for software development",
+};
 
 const categories = [
   {
-    title: "Bilgisayar & Donanım",
+    title: "Computer and Hardware",
     icon: Monitor,
     items: [
       {
         name: 'MacBook Pro 16" M2 Pro',
-        description: "Ana geliştirme makinam. 32GB RAM ve 1TB SSD ile güçlü performans.",
+        description:
+          "My main development machine. Powerful performance with 32GB RAM and 1TB SSD.",
         category: "Laptop",
       },
       {
         name: 'Dell UltraSharp 27" 4K Monitor',
-        description: "Kod yazarken ve tasarım yaparken kullandığım harici monitör.",
-        category: "Monitör",
+        description:
+          "The external monitor I use when writing code and designing.",
+        category: "Monitor",
       },
       {
         name: "Magic Keyboard",
-        description: "Apple'ın kablosuz klavyesi. Türkçe Q layout.",
-        category: "Klavye",
+        description: "Apple's wireless keyboard. Turkish Q layout.",
+        category: "Keyboard",
       },
       {
         name: "Logitech MX Master 3",
-        description: "Ergonomik tasarımı ve hassas tracking ile mükemmel bir mouse.",
+        description:
+          "An excellent mouse with ergonomic design and precise tracking.",
         category: "Mouse",
       },
     ],
   },
   {
-    title: "Geliştirme Araçları",
+    title: "Development Tools",
     icon: Code,
     items: [
       {
         name: "Visual Studio Code",
-        description: "Ana kod editörüm. Çok sayıda extension ile özelleştirdim.",
+        description:
+          "My main code editor. I've customized it with numerous extensions.",
         category: "Editor",
       },
       {
         name: "PhpStorm",
-        description: "PHP ve Laravel projeleri için kullandığım IDE.",
+        description: "The IDE I use for PHP and Laravel projects.",
         category: "IDE",
       },
       {
         name: "TablePlus",
-        description: "Veritabanı yönetimi için kullandığım modern GUI aracı.",
+        description: "Modern GUI tool that I use for database management.",
         category: "Database",
       },
       {
         name: "Postman",
-        description: "API geliştirme ve test etme için vazgeçilmez araç.",
+        description: "The indispensable tool for API development and testing.",
         category: "API",
       },
       {
         name: "Git",
-        description: "Versiyon kontrolü için. GitHub ve GitLab ile entegre kullanım.",
+        description:
+          "For version control. Integrated use with GitHub and GitLab.",
         category: "Version Control",
       },
       {
         name: "Docker",
-        description: "Geliştirme ortamlarını containerize etmek için.",
+        description: "To containerize development environments.",
         category: "DevOps",
       },
     ],
   },
   {
-    title: "Tasarım & UI/UX",
+    title: "Design & UI/UX",
     icon: Palette,
     items: [
       {
         name: "Figma",
-        description: "UI/UX tasarım ve prototipleme için kullandığım ana araç.",
+        description: "The main tool I use for UI/UX design and prototyping.",
         category: "Design",
       },
       {
         name: "Adobe Photoshop",
-        description: "Görsel düzenleme ve grafik tasarım için.",
+        description: "For image editing and graphic design.",
         category: "Graphics",
       },
       {
         name: "Canva Pro",
-        description: "Hızlı grafik tasarımlar ve sosyal medya içerikleri için.",
+        description: "For quick graphic designs and social media content.",
         category: "Graphics",
       },
     ],
@@ -99,74 +104,76 @@ const categories = [
     items: [
       {
         name: "Vercel",
-        description: "Next.js projelerimi deploy ettiğim ana platform.",
+        description: "Next.js is the main platform where I deploy my projects.",
         category: "Hosting",
       },
       {
         name: "DigitalOcean",
-        description: "VPS ve cloud hosting için kullandığım servis.",
+        description: "The service I use for VPS and cloud hosting.",
         category: "Cloud",
       },
       {
         name: "Cloudflare",
-        description: "CDN, DNS ve güvenlik için.",
+        description: "For CDN, DNS and security.",
         category: "CDN",
       },
       {
         name: "Supabase",
-        description: "Backend-as-a-Service olarak kullandığım platform.",
+        description: "The platform I use as Backend-as-a-Service.",
         category: "BaaS",
       },
     ],
   },
   {
-    title: "Üretkenlik & Organizasyon",
+    title: "Productivity & Organization",
     icon: Zap,
     items: [
       {
         name: "Notion",
-        description: "Proje yönetimi, not alma ve dokümantasyon için.",
+        description: "For project management, note-taking and documentation.",
         category: "Productivity",
       },
       {
         name: "Todoist",
-        description: "Görev yönetimi ve planlama için kullandığım uygulama.",
+        description: "The app I use for task management and planning.",
         category: "Task Management",
       },
       {
         name: "Slack",
-        description: "Takım iletişimi ve proje koordinasyonu için.",
+        description: "For team communication and project coordination.",
         category: "Communication",
       },
       {
         name: "Zoom",
-        description: "Video konferans ve uzaktan toplantılar için.",
+        description: "For video conferencing and remote meetings.",
         category: "Communication",
       },
     ],
   },
   {
-    title: "Mobil & Aksesuarlar",
+    title: "Mobile and Accessories",
     icon: Smartphone,
     items: [
       {
         name: "iPhone 14 Pro",
-        description: "Ana telefonum. Mobil test ve geliştirme için de kullanıyorum.",
+        description:
+          "My main phone. I also use it for mobile testing and development.",
         category: "Phone",
       },
       {
         name: "AirPods Pro 2",
-        description: "Müzik dinlemek ve toplantılarda kullandığım kulaklık.",
+        description:
+          "These are the headphones I use for listening to music and in meetings.",
         category: "Audio",
       },
       {
         name: "iPad Air",
-        description: "Tasarım çizimler ve okuma için kullandığım tablet.",
+        description: "The tablet I use for design drawings and reading.",
         category: "Tablet",
       },
     ],
   },
-]
+];
 
 export default function UsesPage() {
   return (
@@ -175,12 +182,14 @@ export default function UsesPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             <div className="text-center space-y-4 mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-balance">Uses</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-balance">
+                Uses
+              </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Yazılım geliştirme sürecimde kullandığım cihazlar, yazılımlar ve araçlar. Bu liste düzenli olarak
-                güncellenmektedir.
+                The devices, software, and tools I use in my software
+                development process. This list is updated regularly.
               </p>
             </div>
           </div>
@@ -188,7 +197,7 @@ export default function UsesPage() {
 
         {/* Categories */}
         <section className="pb-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             <div className="space-y-16">
               {categories.map((category, categoryIndex) => (
                 <div key={categoryIndex}>
@@ -196,15 +205,22 @@ export default function UsesPage() {
                     <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                       <category.icon className="h-5 w-5 text-primary" />
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-bold">{category.title}</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold">
+                      {category.title}
+                    </h2>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {category.items.map((item, itemIndex) => (
-                      <Card key={itemIndex} className="hover:shadow-lg transition-shadow">
+                      <Card
+                        key={itemIndex}
+                        className="hover:shadow-lg transition-shadow"
+                      >
                         <CardHeader>
                           <div className="flex items-start justify-between">
-                            <CardTitle className="text-lg">{item.name}</CardTitle>
+                            <CardTitle className="text-lg">
+                              {item.name}
+                            </CardTitle>
                             <Badge variant="secondary" className="text-xs">
                               {item.category}
                             </Badge>
@@ -226,14 +242,15 @@ export default function UsesPage() {
 
         {/* Footer Note */}
         <section className="py-16 bg-muted/50">
-          <div className="container">
+          <div className="container mx-auto px-4">
             <div className="text-center space-y-4">
-              <h3 className="text-xl font-semibold">Not</h3>
+              <h3 className="text-xl font-semibold">Note</h3>
               <p className="text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Bu liste sürekli güncellenmektedir. Yeni araçlar denediğimde veya mevcut setup'ımda değişiklik
-                yaptığımda bu sayfayı güncellerim. Herhangi bir araç hakkında soru sormak isterseniz{" "}
+                This list is constantly updated. I update this page whenever I
+                try new tools or make changes to my current setup. If you have
+                any questions about any tools, please{" "}
                 <a href="/contact" className="text-primary hover:underline">
-                  iletişime geçebilirsiniz
+                  contact
                 </a>
                 .
               </p>
@@ -243,5 +260,5 @@ export default function UsesPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
