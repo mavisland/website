@@ -57,8 +57,8 @@ export const config = {
      * Match all internal paths:
      * - Except /api routes (API routes)
      * Except for /_next/static, /_next/image paths (Next.js internal paths)
-     * Excluding root files like /favicon.ico, /sitemap.xml, etc.
+     * Excluding root files like /favicon.ico, /icon.png, /apple-icon.png, /sitemap.xml, etc.
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|icon.ico|icon.png|apple-icon.png|sitemap.xml).*)",
   ],
 };

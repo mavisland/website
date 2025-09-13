@@ -22,6 +22,15 @@ export const metadata: Metadata = {
   },
   description:
     "Portfolio of Tanju Yıldız, a passionate software developer specializing in PHP, Laravel, Next.js, and modern web technologies.",
+  icons: {
+    icon: "/icon1.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+    other: {
+      rel: "apple-touch-icon-precomposed",
+      url: "/apple-icon.png",
+    },
+  },
   keywords: [
     "Tanju Yıldız",
     "Software Developer",
