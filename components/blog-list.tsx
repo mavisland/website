@@ -1,9 +1,15 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Calendar, Clock, ArrowRight, User } from "lucide-react"
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar, Clock, ArrowRight, User } from "lucide-react";
 
 // Mock blog data - in a real app, this would come from a database
 const allBlogPosts = [
@@ -257,18 +263,18 @@ Takım çalışmasında Git kullanımı.`,
     image: "/blog-git-best-practices.png",
     tags: ["Git", "Version Control", "Collaboration", "Tools"],
   },
-]
+];
 
-const POSTS_PER_PAGE = 10
+const POSTS_PER_PAGE = 10;
 
 interface BlogListProps {
-  currentPage: number
+  currentPage: number;
 }
 
 export function BlogList({ currentPage }: BlogListProps) {
-  const startIndex = (currentPage - 1) * POSTS_PER_PAGE
-  const endIndex = startIndex + POSTS_PER_PAGE
-  const posts = allBlogPosts.slice(startIndex, endIndex)
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIndex = startIndex + POSTS_PER_PAGE;
+  const posts = allBlogPosts.slice(startIndex, endIndex);
 
   return (
     <div className="space-y-8">
@@ -291,7 +297,7 @@ export function BlogList({ currentPage }: BlogListProps) {
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
                     <time dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString("tr-TR", {
+                      {new Date(post.publishedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -315,7 +321,9 @@ export function BlogList({ currentPage }: BlogListProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-pretty mb-4">{post.excerpt}</CardDescription>
+                <CardDescription className="text-pretty mb-4">
+                  {post.excerpt}
+                </CardDescription>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {post.tags.slice(0, 3).map((tag) => (
                     <Badge key={tag} variant="outline" className="text-xs">
@@ -323,9 +331,14 @@ export function BlogList({ currentPage }: BlogListProps) {
                     </Badge>
                   ))}
                 </div>
-                <Button variant="ghost" size="sm" asChild className="group/button p-0 h-auto">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                  className="group/button p-0 h-auto"
+                >
                   <Link href={`/blog/${post.id}`}>
-                    Devamını Oku
+                    Read More
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                   </Link>
                 </Button>
@@ -335,7 +348,7 @@ export function BlogList({ currentPage }: BlogListProps) {
         </Card>
       ))}
     </div>
-  )
+  );
 }
 
-export { allBlogPosts }
+export { allBlogPosts };

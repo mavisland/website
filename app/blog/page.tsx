@@ -1,32 +1,35 @@
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { BlogList } from "@/components/blog-list"
-import { BlogPagination } from "@/components/blog-pagination"
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { BlogList } from "@/components/blog-list";
+import { BlogPagination } from "@/components/blog-pagination";
 
 export const metadata = {
-  title: "Blog - Tanju",
-  description: "Yazılım geliştirme, teknoloji ve deneyimlerim hakkında yazılar",
-}
+  title: "Blog",
+  description:
+    "Posts about software development, technology and my experiences",
+};
 
 interface BlogPageProps {
   searchParams: {
-    page?: string
-  }
+    page?: string;
+  };
 }
 
 export default function BlogPage({ searchParams }: BlogPageProps) {
-  const currentPage = Number(searchParams.page) || 1
+  const currentPage = Number(searchParams.page) || 1;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
       <main className="flex-1">
         <div className="py-20">
-          <div className="container">
+          <div className="container mx-auto px-4">
             <div className="text-center space-y-4 mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-balance">Blog</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-balance">
+                Blog
+              </h1>
               <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-                Yazılım geliştirme, teknoloji trendleri ve kişisel deneyimlerim hakkında yazılar
+                Posts about software development, technology and my experiences
               </p>
             </div>
             <BlogList currentPage={currentPage} />
@@ -36,5 +39,5 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
