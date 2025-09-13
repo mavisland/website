@@ -10,11 +10,11 @@ import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navigation = [
-  { name: "Ana Sayfa", href: "/" },
-  { name: "Hakkımda", href: "/about" },
-  { name: "Projeler", href: "/projects" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
   { name: "Blog", href: "/blog" },
-  { name: "İletişim", href: "/contact" },
+  { name: "Contact", href: "/contact" },
 ]
 
 export function Navigation() {
@@ -23,9 +23,9 @@ export function Navigation() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container mx-auto flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-primary">Tanju</span>
+          <span className="text-xl font-bold text-primary">Tanju Yıldız</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -47,7 +47,7 @@ export function Navigation() {
         <div className="flex items-center space-x-4">
           <ModeToggle />
           <Button asChild className="hidden md:inline-flex">
-            <Link href="/contact">İletişime Geç</Link>
+            <Link href="/contact">Get In Touch</Link>
           </Button>
 
           {/* Mobile Navigation */}
@@ -55,14 +55,14 @@ export function Navigation() {
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Menüyü aç</span>
+                <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col space-y-4 mt-8">
                 <div className="flex items-center justify-between mb-8">
                   <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-                    <span className="text-xl font-bold text-primary">Tanju</span>
+                    <span className="text-xl font-bold text-primary">Tanju Yıldız</span>
                   </Link>
                 </div>
 
@@ -84,7 +84,7 @@ export function Navigation() {
 
                 <div className="pt-8">
                   <Button asChild className="w-full" onClick={() => setIsOpen(false)}>
-                    <Link href="/contact">İletişime Geç</Link>
+                    <Link href="/contact">Get In Touch</Link>
                   </Button>
                 </div>
               </div>
