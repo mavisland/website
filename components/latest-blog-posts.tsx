@@ -36,11 +36,11 @@ const latestPosts = [
 export function LatestBlogPosts() {
   return (
     <section className="py-20 bg-muted/50">
-      <div className="container">
+      <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-balance">Son Blog Yazıları</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-balance">Latest Blog Posts</h2>
           <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-            Yazılım geliştirme, teknoloji ve deneyimlerim hakkında yazılar
+            Posts about software development, technology and my experiences
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export function LatestBlogPosts() {
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                   <Calendar className="h-4 w-4" />
                   <time dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString("tr-TR", {
+                    {new Date(post.date).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -71,7 +71,7 @@ export function LatestBlogPosts() {
                 <CardDescription className="text-pretty mb-4">{post.excerpt}</CardDescription>
                 <Button variant="ghost" size="sm" asChild className="group/button p-0 h-auto">
                   <Link href={`/blog/${post.id}`}>
-                    Devamını Oku
+                    Read More
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                   </Link>
                 </Button>
@@ -82,7 +82,7 @@ export function LatestBlogPosts() {
 
         <div className="text-center mt-12">
           <Button asChild variant="outline" size="lg">
-            <Link href="/blog">Tüm Yazıları Gör</Link>
+            <Link href="/blog">View All Posts</Link>
           </Button>
         </div>
       </div>
