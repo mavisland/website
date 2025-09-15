@@ -66,7 +66,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:tanju@example.com"
+                  href="mailto:hello@tanjuyildiz.com"
                   className="text-muted-foreground hover:text-primary"
                 >
                   Email
