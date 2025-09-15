@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getBlogPosts } from "@/lib/supabase-service";
+import { getAllBlogPosts } from "@/lib/blog-markdown-loader";
 
 const POSTS_PER_PAGE = 10;
 
@@ -10,8 +10,8 @@ interface BlogPaginationProps {
 }
 
 export async function BlogPagination({ currentPage }: BlogPaginationProps) {
-  // Fetch blog posts from Supabase
-  const blogPosts = await getBlogPosts();
+  // Fetch blog posts from markdown files
+  const blogPosts = await getAllBlogPosts();
 
   // Calculate total number of posts
   const totalPosts = blogPosts.length;

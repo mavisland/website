@@ -7,17 +7,20 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react";
-import { getBlogPosts, type Post } from "@/lib/supabase-service";
+import {
+  getAllBlogPosts,
+  getBlogPostData,
+  parseMarkdown,
+} from "@/lib/blog-markdown-loader";
 
 interface BlogDetailPageProps {
   params: {
-    id: string;
+    slug: string;
   };
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps) {
-  const posts = await getBlogPosts();
-  const post = posts.find((p) => p.id === Number.parseInt(params.id));
+  const post = await getBlogPostData(params.slug);
 
   if (!post) {
     return {
@@ -31,17 +34,29 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
   };
 }
 
+export async function generateStaticParams() {
+  const posts = await getAllBlogPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const posts = await getBlogPosts();
-  const post = posts.find((p) => p.id === Number.parseInt(params.id));
+  const post = await getBlogPostData(params.slug);
 
   if (!post) {
     notFound();
   }
 
+  // Parse the markdown content
+  const htmlContent = await parseMarkdown(post.content);
+
+  // Get all posts for related posts
+  const allPosts = await getAllBlogPosts();
+
   // Get related posts (same category, excluding current post)
-  const relatedPosts = posts
-    .filter((p) => p.category === post.category && p.id !== post.id)
+  const relatedPosts = allPosts
+    .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
 
   return (
@@ -73,13 +88,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground mb-8">
                   <div className="flex items-center gap-2">
                     <User className="h-4 w-4" />
-                    <span>Tanju Yıldız</span>{" "}
-                    {/* We'll update this once we have author information */}
+                    <span>{post.author}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
-                    <time dateTime={post.created_at}>
-                      {new Date(post.created_at).toLocaleDateString("en-US", {
+                    <time dateTime={post.date}>
+                      {new Date(post.date).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -88,7 +102,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4" />
-                    <span>{post.read_time || "5 min read"}</span>
+                    <span>{post.readTime}</span>
                   </div>
                 </div>
 
@@ -105,7 +119,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               {/* Featured Image */}
               <div className="relative mb-12">
                 <Image
-                  src={post.cover_image || "/placeholder.svg"}
+                  src={post.coverImage || "/placeholder.svg"}
                   alt={post.title}
                   width={800}
                   height={400}
@@ -114,25 +128,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </div>
 
               {/* Article Content */}
-              <div className="prose prose-gray dark:prose-invert max-w-none mb-12">
-                {post.content.split("\n").map((paragraph, index) => {
-                  if (paragraph.startsWith("## ")) {
-                    return (
-                      <h2 key={index} className="text-2xl font-bold mt-8 mb-4">
-                        {paragraph.replace("## ", "")}
-                      </h2>
-                    );
-                  }
-                  if (paragraph.trim() === "") {
-                    return <br key={index} />;
-                  }
-                  return (
-                    <p key={index} className="mb-4 text-pretty leading-relaxed">
-                      {paragraph}
-                    </p>
-                  );
-                })}
-              </div>
+              <div
+                className="prose prose-gray dark:prose-invert max-w-none mb-12"
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
+              />
 
               {/* Share Button */}
               <div className="flex justify-center mb-12">
@@ -156,13 +155,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {relatedPosts.map((relatedPost) => (
                     <Card
-                      key={relatedPost.id}
+                      key={relatedPost.slug}
                       className="group hover:shadow-lg transition-shadow"
                     >
                       <CardHeader className="p-0">
                         <div className="relative overflow-hidden rounded-t-lg">
                           <Image
-                            src={relatedPost.cover_image || "/placeholder.svg"}
+                            src={relatedPost.coverImage || "/placeholder.svg"}
                             alt={relatedPost.title}
                             width={300}
                             height={200}
@@ -175,23 +174,24 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                           {relatedPost.category || "General"}
                         </Badge>
                         <CardTitle className="text-lg mb-2 group-hover:text-primary transition-colors">
-                          <Link href={`/blog/${relatedPost.id}`}>
+                          <Link href={`/blog/${relatedPost.slug}`}>
                             {relatedPost.title}
                           </Link>
                         </CardTitle>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="h-3 w-3" />
-                          <time dateTime={relatedPost.created_at}>
-                            {new Date(
-                              relatedPost.created_at
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
+                          <time dateTime={relatedPost.date}>
+                            {new Date(relatedPost.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
                           </time>
                           <span>•</span>
-                          <span>{relatedPost.read_time || "5 min read"}</span>
+                          <span>{relatedPost.readTime}</span>
                         </div>
                       </CardContent>
                     </Card>

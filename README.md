@@ -32,7 +32,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **Next.js**: React framework for production
 - **TypeScript**: Type safety and better developer experience
 - **Tailwind CSS**: Utility-first CSS framework
-- **Supabase**: Database, authentication, and storage
+- **Markdown**: Blog content storage and rendering
 
 ### UI Components
 - **shadcn/ui**: Beautifully designed components built with Radix UI and Tailwind CSS
@@ -71,7 +71,7 @@ pnpm install
 
 # Set up environment variables
 cp .env.example .env.local
-# Edit .env.local with your Supabase and email credentials
+# Edit .env.local with your email credentials for the contact form
 
 # Start the development server
 pnpm dev
@@ -79,9 +79,9 @@ pnpm dev
 
 The application will be available at http://localhost:3000
 
-### Database Setup
+### Blog System Setup
 
-For database setup and sample data, follow the instructions in the [Supabase setup documentation](./docs/supabase-setup.md).
+The blog system uses markdown files stored in the `data/blog` directory. See the [blog documentation](./data/blog/README.md) for more information about creating and managing blog posts.
 
 ### Email Setup for Contact Form
 

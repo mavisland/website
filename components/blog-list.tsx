@@ -10,17 +10,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, User } from "lucide-react";
-import { getBlogPosts, type Post } from "@/lib/supabase-service";
+import { getAllBlogPosts, type BlogPost } from "@/lib/blog-markdown-loader";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 // Extended type for blog posts
-type ExtendedPost = Post & {
-  readTime?: string;
-  category?: string;
-  author?: string;
+type ExtendedPost = BlogPost & {
   image?: string;
   publishedAt?: string;
-  tags?: string[];
 };
 
 const POSTS_PER_PAGE = 10;
@@ -30,18 +26,14 @@ interface BlogListProps {
 }
 
 export async function BlogList({ currentPage }: BlogListProps) {
-  // Get blog posts from Supabase
-  const blogPosts = await getBlogPosts();
+  // Get blog posts from markdown files
+  const blogPosts = await getAllBlogPosts();
 
-  // Convert data from Supabase to ExtendedPost type
+  // Convert data to ExtendedPost type
   const extendedPosts: ExtendedPost[] = blogPosts.map((post) => ({
     ...post,
     publishedAt: post.created_at,
-    readTime: post.read_time || "5 min", // Default value
-    category: post.category || "General", // Default category
-    author: "Tanju Yıldız", // Default author
-    image: post.cover_image || "/placeholder.svg",
-    tags: post.tags || ["Web Development"], // Default tags
+    image: post.coverImage || "/placeholder.svg",
   }));
 
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
@@ -98,7 +90,7 @@ export async function BlogList({ currentPage }: BlogListProps) {
                   {post.category}
                 </Badge>
                 <CardTitle className="group-hover:text-primary transition-colors">
-                  <Link href={`/blog/${post.id}`}>{post.title}</Link>
+                  <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -119,7 +111,7 @@ export async function BlogList({ currentPage }: BlogListProps) {
                   asChild
                   className="group/button p-0 h-auto"
                 >
-                  <Link href={`/blog/${post.id}`}>
+                  <Link href={`/blog/${post.slug}`}>
                     Read More
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                   </Link>
