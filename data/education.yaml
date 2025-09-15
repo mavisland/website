@@ -1,0 +1,9 @@
+- school: "İstanbul Teknik Üniversitesi"
+  degree: "Bilgisayar Mühendisliği"
+  period: "2014 - 2018"
+  description: "Yazılım geliştirme, algoritma ve veri yapıları, veritabanı yönetimi konularında eğitim."
+
+- school: "Ankara Fen Lisesi"
+  degree: "Fen Bilimleri"
+  period: "2010 - 2014"
+  description: "Matematik ve fen bilimleri ağırlıklı eğitim."

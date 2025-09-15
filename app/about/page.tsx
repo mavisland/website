@@ -12,6 +12,7 @@ import {
   Briefcase,
   Globe,
 } from "lucide-react";
+import { loadYamlData } from "@/lib/yaml-loader";
 
 export const metadata = {
   title: "About Me",
@@ -19,246 +20,37 @@ export const metadata = {
     "Information about me, my experiences and educational background as a software developer",
 };
 
-const experiences = [
-  {
-    company: "Raporzen Yazılım",
-    position: "Senior Full Stack Developer",
-    period: "October 2024 - Present",
-    description: `Developed and led custom software projects using PHP, MySQL, Laravel, Tailwind, JavaScript, and React. Managed project planning, task assignment, and code reviews while ensuring on-time delivery.
+type Experience = {
+  company: string;
+  position: string;
+  period: string;
+  description: string;
+  technologies: string[];
+};
 
-Key projects:
+type Education = {
+  school: string;
+  degree: string;
+  period: string;
+  description: string;
+};
 
-- Elevator Quotation System – Built role-based access, product management, pricing, and PDF generation features.
-- Language School Management System – Implemented student enrollment, placement tests, certificate generation, and scheduling modules.
-- B2B Sales Portal – Delivered a platform with product catalog, order management, stock tracking, and pricing integration.`,
-    technologies: ["Laravel", "Next.js", "MySQL", "Redis", "Docker"],
-  },
-  {
-    company: "Grafix Reklam Ajansı",
-    position: "Full Stack Developer",
-    period: "August 2019 - October 2024",
-    description: `Led the frontend team and contributed to the development of 4 large-scale projects, 10+ mid-sized projects, and 30+ smaller applications. Focused on building high-performance, maintainable web applications while ensuring quality delivery.
+type Language = {
+  language: string;
+  level: string;
+};
 
-Key responsibilities and achievements:
+type Skill = {
+  category: string;
+  skills: string[];
+};
 
-- Created and maintained a reusable design and component library for company projects and client applications.
-- Directed frontend development in projects such as sales management systems, dashboards, company websites, accounting tools, B2B/B2C platforms, and CRM solutions.
-- Utilized modern frontend technologies including Gulp.js, SASS, Twig, TailwindCSS, PostCSS, Bootstrap, Chart.js, and DataTables.
-- Conducted code reviews, training, and mentoring to raise the overall quality and performance of the development team.
-- Built and scaled the frontend team, delegated workloads, planned releases, and ensured timely delivery aligned with business requirements.`,
-    technologies: [
-      "PHP",
-      "Single Page Applications",
-      "Vue.js",
-      "Web Performance",
-      "CSS",
-      "Tailwind CSS",
-      "React.js",
-      "HTML",
-      "WordPress",
-      "JavaScript",
-      "REST APIs",
-    ],
-  },
-  {
-    company: "Freelance",
-    position: "Full Stack Developer",
-    period: "April 2017 - August 2019",
-    description: `- Delivered customized WordPress solutions, including installation, theme customization, and bespoke plugin development.
-- Built and enhanced user-friendly front-end interfaces with modern UI practices.
-- Transformed static HTML projects into dynamic, CMS-driven platforms, enabling easier content management for clients.
-- Collaborated directly with clients to translate requirements into functional, scalable solutions, ensuring timely delivery and long-term maintainability.`,
-    technologies: [
-      "PHP",
-      "WordPress",
-      "WordPress Plugin Development",
-      "CMS",
-      "jQuery",
-      "MySQL",
-      "Bootstrap",
-    ],
-  },
-  {
-    company: "The Mediatix Production",
-    position: "Full Stack Developer",
-    period: "December 2016 - April 2017",
-    description: `Held complete responsibility for frontend development, including architecture design, feature implementation, and long-term maintenance. Collaborated closely with UI/UX designers to transform wireframes into responsive and user-friendly web applications.
-Key contributions:
-- Designed and developed modular frontend components to improve reusability and maintainability.
-- Optimized application performance and cross-browser compatibility.
-- Ensured pixel-perfect implementation of UI/UX designs with a focus on accessibility and responsiveness.
-- Contributed to project planning and aligned technical solutions with business requirements.`,
-    technologies: [
-      "Web Performance",
-      "CSS",
-      "MySQL",
-      "HTML",
-      "WordPress",
-      "PHP",
-      "JavaScript",
-      "GitHub",
-      "REST APIs",
-    ],
-  },
-  {
-    company: "Viva Dizayn",
-    position: "Frontend Developer",
-    period: "February 2015 - August 2016",
-    description: `Developed custom software solutions tailored to client requirements, focusing on usability, performance, and accessibility.
-Key contributions:
-- Built a fully interactive product prototype using JavaScript, Less/SASS, Flexbox, HTML5, and CSS3, enabling rapid client validation and iteration.
-- Delivered end-to-end frontend implementations, optimizing mobile web performance and ensuring WCAG-compliant accessibility (a11y).
-- Collaborated with designers and backend developers to align technical solutions with business goals.`,
-    technologies: [
-      "PHP",
-      "JavaScript",
-      "jQuery",
-      "MySQL",
-      "HTML",
-      "CSS",
-      "Bootstrap",
-    ],
-  },
-  {
-    company: "WeblebiX Creative",
-    position: "Frontend Developer",
-    period: "April 2013 - February 2015",
-    description: `- Designing, modernizing and creating websites
-- WordPress back-end development
-- Perform technical problem solving, analyze and design the architecture for each front-end project to ensure performance and scalability.
-- Working with WordPress, WooCommerce, etc.
-- Writing plugins and themes
-- Maintaining existing websites.`,
-    technologies: [
-      "PHP",
-      "CodeIgniter",
-      "WordPress",
-      "WordPress Theme Development",
-      "WordPress Plugin Development",
-      "WooCommerce",
-      "JavaScript",
-      "jQuery",
-      "MySQL",
-      "HTML",
-      "CSS",
-      "Bootstrap",
-    ],
-  },
-  {
-    company: "Reaktif Ajans",
-    position: "Web Developer",
-    period: "September 2011 - April 2013",
-    description: `- Build and maintain websites.
-- Implement pixel-perfect design.`,
-    technologies: [
-      "PHP",
-      "JavaScript",
-      "WordPress",
-      "jQuery",
-      "MySQL",
-      "Bootstrap",
-    ],
-  },
-  {
-    company: "Ajans Dialog Organizasyon",
-    position: "Web Developer",
-    period: "July 2009 - August 2011",
-    description: `- Build and maintain websites.
-- Implement pixel-perfect design.`,
-    technologies: [
-      "PHP",
-      "JavaScript",
-      "WordPress",
-      "jQuery",
-      "MySQL",
-      "Bootstrap",
-    ],
-  },
-  {
-    company: "Esform Ofset Matbaa",
-    position: "Web Developer",
-    period: "September 2008 - June 2009",
-    description: `- Build and maintain websites.
-- Implement pixel-perfect design.`,
-    technologies: [
-      "PHP",
-      "JavaScript",
-      "WordPress",
-      "jQuery",
-      "MySQL",
-      "Bootstrap",
-    ],
-  },
-  {
-    company: "Mika Pro.",
-    position: "Web Developer",
-    period: "March 2008 - September 2009",
-    description: `- Build and maintain websites.
-- Implement pixel-perfect design.`,
-    technologies: ["PHP", "JavaScript", "MySQL", "HTML", "CSS"],
-  },
-];
-
-const education = [
-  {
-    school: "İstanbul Teknik Üniversitesi",
-    degree: "Bilgisayar Mühendisliği",
-    period: "2014 - 2018",
-    description:
-      "Yazılım geliştirme, algoritma ve veri yapıları, veritabanı yönetimi konularında eğitim.",
-  },
-  {
-    school: "Ankara Fen Lisesi",
-    degree: "Fen Bilimleri",
-    period: "2010 - 2014",
-    description: "Matematik ve fen bilimleri ağırlıklı eğitim.",
-  },
-];
-
-const languages = [
-  { language: "Turkish", level: "Native" },
-  { language: "English", level: "Upper Intermediate (C1)" },
-  { language: "German", level: "Intermediate (B1)" },
-];
-
-const technicalSkills = [
-  {
-    category: "Frontend",
-    skills: [
-      "Next.js",
-      "React",
-      "Vue.js",
-      "TypeScript",
-      "JavaScript",
-      "HTML5",
-      "CSS3",
-      "SASS",
-      "Tailwind CSS",
-      "Bootstrap",
-    ],
-  },
-  {
-    category: "Backend",
-    skills: ["PHP", "Laravel", "CodeIgniter", "Node.js", "RESTful APIs"],
-  },
-  {
-    category: "Databases",
-    skills: ["MySQL", "PostgreSQL", "Supabase", "Redis"],
-  },
-  {
-    category: "DevOps & Others",
-    skills: [
-      "Git",
-      "Docker",
-      "Vercel",
-      "AWS",
-      "jQuery",
-      "ApexCharts.js",
-      "mPDF",
-      "PhpSpreadsheet",
-    ],
-  },
-];
+const experiences: Experience[] = loadYamlData<Experience[]>(
+  "data/experiences.yaml"
+);
+const education: Education[] = loadYamlData<Education[]>("data/education.yaml");
+const languages: Language[] = loadYamlData<Language[]>("data/languages.yaml");
+const technicalSkills: Skill[] = loadYamlData<Skill[]>("data/skills.yaml");
 
 export default function AboutPage() {
   return (
@@ -291,7 +83,7 @@ export default function AboutPage() {
                 <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
                   I thrive in collaborative environments where I can contribute
                   to meaningful projects and continue learning new technologies.
-                  When I’m not coding, I enjoy exploring new approaches to
+                  When I'm not coding, I enjoy exploring new approaches to
                   streamline workflows and optimize software performance.
                 </p>
                 <div className="flex items-center gap-4">

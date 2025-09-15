@@ -1,0 +1,38 @@
+- category: "Frontend"
+  skills:
+    - Next.js
+    - React
+    - Vue.js
+    - TypeScript
+    - JavaScript
+    - HTML5
+    - CSS3
+    - SASS
+    - Tailwind CSS
+    - Bootstrap
+
+- category: "Backend"
+  skills:
+    - PHP
+    - Laravel
+    - CodeIgniter
+    - Node.js
+    - RESTful APIs
+
+- category: "Databases"
+  skills:
+    - MySQL
+    - PostgreSQL
+    - Supabase
+    - Redis
+
+- category: "DevOps & Others"
+  skills:
+    - Git
+    - Docker
+    - Vercel
+    - AWS
+    - jQuery
+    - ApexCharts.js
+    - mPDF
+    - PhpSpreadsheet
