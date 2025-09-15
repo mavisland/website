@@ -10,20 +10,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github } from "lucide-react";
-import { getProjects, type Project } from "@/lib/supabase-service";
+import { getFeaturedProjects } from "@/lib/markdown-loader";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 export async function FeaturedProjects() {
-  const allProjects = await getProjects();
+  const featuredProjects = await getFeaturedProjects();
 
-  if (!allProjects || allProjects.length === 0) {
+  if (!featuredProjects || featuredProjects.length === 0) {
     return <LoadingSpinner />;
   }
 
-  // Filter featured projects and limit to 3
-  const featuredProjects = allProjects
-    .filter((project) => project.featured)
-    .slice(0, 3);
+  // Limit to 3 projects
+  const limitedProjects = featuredProjects.slice(0, 3);
   return (
     <section className="py-20 bg-muted/50">
       <div className="container mx-auto px-4">
@@ -38,15 +36,15 @@ export async function FeaturedProjects() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProjects.map((project) => (
+          {limitedProjects.map((project) => (
             <Card
-              key={project.id}
-              className="group hover:shadow-lg transition-shadow"
+              key={project.slug}
+              className="group hover:shadow-lg transition-shadow pt-0"
             >
               <CardHeader className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <Image
-                    src={project.cover_image || "/placeholder.svg"}
+                    src={project.coverImage || "/placeholder.svg"}
                     alt={project.title}
                     width={400}
                     height={300}
@@ -57,26 +55,26 @@ export async function FeaturedProjects() {
               <CardContent className="p-6">
                 <CardTitle className="mb-2">{project.title}</CardTitle>
                 <CardDescription className="mb-4 text-pretty">
-                  {project.description}
+                  {project.summary}
                 </CardDescription>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+                {/* <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies &&
                     project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary">
+                      <Badge key={tech} variant="outline">
                         {tech}
                       </Badge>
                     ))}
-                </div>
+                </div> */}
 
                 <div className="flex gap-2">
                   <Button size="sm" asChild>
-                    <Link href={`/projects/${project.id}`}>View</Link>
+                    <Link href={`/projects/${project.slug}`}>View</Link>
                   </Button>
-                  {project.demo_url && (
+                  {project.demoUrl && (
                     <Button size="sm" variant="outline" asChild>
                       <a
-                        href={project.demo_url}
+                        href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -85,10 +83,10 @@ export async function FeaturedProjects() {
                       </a>
                     </Button>
                   )}
-                  {project.github_url && (
+                  {project.githubUrl && (
                     <Button size="sm" variant="outline" asChild>
                       <a
-                        href={project.github_url}
+                        href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

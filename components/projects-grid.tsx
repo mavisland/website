@@ -10,11 +10,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github } from "lucide-react";
-import { getProjects, type Project } from "@/lib/supabase-service";
+import {
+  getAllProjects,
+  getFeaturedProjects,
+  type ProjectData,
+} from "@/lib/markdown-loader";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 export async function ProjectsGrid() {
-  const projects = await getProjects();
+  const projects = await getAllProjects();
 
   if (!projects || projects.length === 0) {
     return <LoadingSpinner />;
@@ -30,7 +34,7 @@ export async function ProjectsGrid() {
         <h2 className="text-2xl font-bold mb-8">Featured Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
       </div>
@@ -40,7 +44,7 @@ export async function ProjectsGrid() {
         <h2 className="text-2xl font-bold mb-8">Other Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {otherProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
       </div>
@@ -48,13 +52,13 @@ export async function ProjectsGrid() {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project }: { project: ProjectData }) {
   return (
     <Card className="group hover:shadow-lg transition-shadow">
       <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <Image
-            src={project.cover_image || "/placeholder.svg"}
+            src={project.coverImage || "/placeholder.svg"}
             alt={project.title}
             width={400}
             height={300}
@@ -70,7 +74,7 @@ function ProjectCard({ project }: { project: Project }) {
       <CardContent className="p-6">
         <CardTitle className="mb-2">{project.title}</CardTitle>
         <CardDescription className="mb-4 text-pretty">
-          {project.description}
+          {project.summary}
         </CardDescription>
 
         <div className="flex flex-wrap gap-2 mb-4">
@@ -84,12 +88,12 @@ function ProjectCard({ project }: { project: Project }) {
 
         <div className="flex gap-2">
           <Button size="sm" asChild>
-            <Link href={`/projects/${project.id}`}>Detaylar</Link>
+            <Link href={`/projects/${project.slug}`}>Detaylar</Link>
           </Button>
-          {project.demo_url && (
+          {project.demoUrl && (
             <Button size="sm" variant="outline" asChild>
               <a
-                href={project.demo_url}
+                href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -98,10 +102,10 @@ function ProjectCard({ project }: { project: Project }) {
               </a>
             </Button>
           )}
-          {project.github_url && (
+          {project.githubUrl && (
             <Button size="sm" variant="outline" asChild>
               <a
-                href={project.github_url}
+                href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >

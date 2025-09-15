@@ -8,10 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ExternalLink, Github, Calendar, User } from "lucide-react";
 import {
-  getProjectById,
-  getProjects,
-  type Project,
-} from "@/lib/supabase-service";
+  getProjectData,
+  getAllProjects,
+  parseMarkdown,
+} from "@/lib/markdown-loader";
 
 interface ProjectDetailPageProps {
   params: {
@@ -19,29 +19,39 @@ interface ProjectDetailPageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const projects = await getAllProjects();
+  return projects.map((project) => ({
+    id: project.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: ProjectDetailPageProps) {
-  const project = await getProjectById(params.id);
+  const project = await getProjectData(params.id);
 
   if (!project) {
     return {
-      title: "Proje Bulunamadı - Tanju",
+      title: "Project Not Found",
     };
   }
 
   return {
-    title: `${project.title} - Tanju`,
-    description: project.description,
+    title: project.title,
+    description: project.summary,
   };
 }
 
 export default async function ProjectDetailPage({
   params,
 }: ProjectDetailPageProps) {
-  const project = await getProjectById(params.id);
+  const project = await getProjectData(params.id);
 
   if (!project) {
     notFound();
   }
+
+  // Parse the markdown content to HTML
+  const contentHtml = await parseMarkdown(project.content);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -66,23 +76,23 @@ export default async function ProjectDetailPage({
                   {project.title}
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 text-pretty">
-                  {project.description}
+                  {project.summary}
                 </p>
 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {project.technologies &&
                     project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary">
+                      <Badge key={tech} variant="outline">
                         {tech}
                       </Badge>
                     ))}
                 </div>
 
                 <div className="flex gap-4">
-                  {project.demo_url && (
+                  {project.demoUrl && (
                     <Button asChild>
                       <a
-                        href={project.demo_url}
+                        href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -91,10 +101,10 @@ export default async function ProjectDetailPage({
                       </a>
                     </Button>
                   )}
-                  {project.github_url && (
+                  {project.githubUrl && (
                     <Button variant="outline" asChild>
                       <a
-                        href={project.github_url}
+                        href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -106,14 +116,16 @@ export default async function ProjectDetailPage({
                 </div>
               </div>
 
-              <div className="relative">
-                <Image
-                  src={project.cover_image || "/placeholder.svg"}
-                  alt={project.title}
-                  width={600}
-                  height={400}
-                  className="rounded-lg shadow-lg w-full"
-                />
+              <div>
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                  <Image
+                    src={project.coverImage || "/placeholder.svg"}
+                    alt={project.title}
+                    width={800}
+                    height={450}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             </div>
 
@@ -127,12 +139,7 @@ export default async function ProjectDetailPage({
                       About the Project
                     </h2>
                     <div className="prose prose-gray dark:prose-invert max-w-none">
-                      {project.content &&
-                        project.content.split("\n").map((paragraph, index) => (
-                          <p key={index} className="mb-4 text-pretty">
-                            {paragraph}
-                          </p>
-                        ))}
+                      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
                     </div>
                   </CardContent>
                 </Card>
@@ -196,9 +203,9 @@ export default async function ProjectDetailPage({
                       <div className="flex items-center gap-3">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <div className="text-sm font-medium">Created</div>
+                          <div className="text-sm font-medium">Start Date</div>
                           <div className="text-sm text-muted-foreground">
-                            {new Date(project.created_at).toLocaleDateString(
+                            {new Date(project.startDate).toLocaleDateString(
                               "en-US",
                               {
                                 year: "numeric",
@@ -208,13 +215,15 @@ export default async function ProjectDetailPage({
                           </div>
                         </div>
                       </div>
-                      {project.updated_at && (
+                      {project.endDate && (
                         <div className="flex items-center gap-3">
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <div>
-                            <div className="text-sm font-medium">Updated</div>
+                            <div className="text-sm font-medium">
+                              Finish Date
+                            </div>
                             <div className="text-sm text-muted-foreground">
-                              {new Date(project.updated_at).toLocaleDateString(
+                              {new Date(project.endDate).toLocaleDateString(
                                 "en-US",
                                 {
                                   year: "numeric",
@@ -247,10 +256,10 @@ export default async function ProjectDetailPage({
                   <CardContent className="p-6">
                     <h3 className="font-semibold mb-4">Project Links</h3>
                     <div className="space-y-3">
-                      {project.demo_url && (
+                      {project.demoUrl && (
                         <Button className="w-full" asChild>
                           <a
-                            href={project.demo_url}
+                            href={project.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -259,14 +268,14 @@ export default async function ProjectDetailPage({
                           </a>
                         </Button>
                       )}
-                      {project.github_url && (
+                      {project.githubUrl && (
                         <Button
                           variant="outline"
                           className="w-full bg-transparent"
                           asChild
                         >
                           <a
-                            href={project.github_url}
+                            href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
