@@ -1,7 +1,6 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,13 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { MessageSquare, Send, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -27,6 +19,7 @@ export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,9 +31,6 @@ export function ContactForm() {
       const formData = new FormData(e.currentTarget);
       const formValues = Object.fromEntries(formData.entries());
 
-      // Display form data (for debugging)
-      console.log("Sending form data:", formValues);
-
       // Send to API endpoint
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -51,7 +41,6 @@ export function ContactForm() {
       });
 
       const responseData = await response.json();
-      console.log("Response:", responseData);
 
       if (!response.ok) {
         throw new Error(responseData.error || "Form submission failed");
@@ -64,7 +53,9 @@ export function ContactForm() {
       });
 
       // Clear form fields
-      e.currentTarget.reset();
+      if (formRef.current) {
+        formRef.current.reset();
+      }
 
       // Reset form after 3 seconds
       setTimeout(() => {
@@ -120,7 +111,7 @@ export function ContactForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="container mx-auto max-w-2xl">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name *</Label>
@@ -151,42 +142,6 @@ export function ContactForm() {
               placeholder="Subject of your message"
               required
             />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="project-type">Project Type</Label>
-              <Select name="project-type">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select project type (optional)" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="web-app">Web Application</SelectItem>
-                  <SelectItem value="ecommerce">E-commerce</SelectItem>
-                  <SelectItem value="cms">CMS / Blog</SelectItem>
-                  <SelectItem value="api">API Development</SelectItem>
-                  <SelectItem value="consultation">Consultation</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="budget">Budget Range</Label>
-              <Select name="budget">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your budget range (optional)" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="under-5k">Under $5,000</SelectItem>
-                  <SelectItem value="5k-15k">$5,000 - $15,000</SelectItem>
-                  <SelectItem value="15k-30k">$15,000 - $30,000</SelectItem>
-                  <SelectItem value="30k-50k">$30,000 - $50,000</SelectItem>
-                  <SelectItem value="over-50k">Over $50,000</SelectItem>
-                  <SelectItem value="discuss">Let's discuss</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
 
           <div className="space-y-2">

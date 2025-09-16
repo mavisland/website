@@ -5,14 +5,7 @@ export async function POST(request: NextRequest) {
   try {
     // Get form data
     const formData = await request.json();
-    const {
-      name,
-      email,
-      subject,
-      message,
-      "project-type": projectType,
-      budget,
-    } = formData;
+    const { name, email, subject, message } = formData;
 
     // Validate data
     if (!name || !email || !subject || !message) {
@@ -38,7 +31,7 @@ export async function POST(request: NextRequest) {
       tls: {
         rejectUnauthorized: false, // Ignore certificate issues
       },
-      debug: true, // Enable debugging information
+      debug: false, // Enable debugging information
     });
 
     // Prepare email content
@@ -48,14 +41,6 @@ export async function POST(request: NextRequest) {
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Subject:</strong> ${subject}</p>
     `;
-
-    if (projectType) {
-      emailContent += `<p><strong>Project Type:</strong> ${projectType}</p>`;
-    }
-
-    if (budget) {
-      emailContent += `<p><strong>Budget Range:</strong> ${budget}</p>`;
-    }
 
     emailContent += `
       <p><strong>Message:</strong></p>
@@ -91,8 +76,6 @@ export async function POST(request: NextRequest) {
       html: emailContent,
       replyTo: email,
     });
-
-    console.log("Message sent: %s", info.messageId);
 
     return NextResponse.json({ success: true });
   } catch (error) {
